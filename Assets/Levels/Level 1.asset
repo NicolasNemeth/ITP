@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5262c39df5b0f7a46986e5698c24547b, type: 3}
   m_Name: Level 1
   m_EditorClassIdentifier: 
-  skybox: {fileID: 2100000, guid: 81f714daf7144784b8a2f42f1cd30927, type: 2}
-  playerPos: {x: 20, y: 10, z: 10}
-  goalPos: {x: -40, y: -20, z: -20}
+  skybox: {fileID: 2100000, guid: 939e9a2214e37ec4e8eb4fe85d074704, type: 2}
+  playerPos: {x: 2, y: 1, z: 3}
+  goalPos: {x: 6, y: 3, z: 9}
