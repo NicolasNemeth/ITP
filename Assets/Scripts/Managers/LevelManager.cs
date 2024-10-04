@@ -31,7 +31,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Button playerZoomButton;
     [SerializeField] private Button goalZoomButton;
 
-    private int maxLevelIndex = 8;
     private int currentLevelIndex;
     private Camera mainCamera;
     private List<GameObject> asteroids;
@@ -61,7 +60,7 @@ public class LevelManager : MonoBehaviour
     {
         currentLevelIndex++;
 
-        if (currentLevelIndex > maxLevelIndex || currentLevelIndex > levels.Count - 1)
+        if (currentLevelIndex > levels.Count - 1)
         {
             ShowEndScreen();
             return;

@@ -38,7 +38,9 @@ public class InputManager : MonoBehaviour
         vectorAdditionToggle.SetActive(vectorAddition);
     }
 
-    public void OnScalarInput(string input)
+    public void UpdatePlayerVectorText(Vector3 pos) => playerVectorText.text = pos.x + "\n" + pos.y + "\n" + pos.z;
+
+    private void OnScalarInput(string input)
     {
         if (Player.Instance.IsMoving)
             return;
@@ -53,7 +55,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public void OnVectorInput()
+    private void OnVectorInput()
     {
         if (!string.IsNullOrEmpty(inputFieldX.text) && !string.IsNullOrEmpty(inputFieldY.text) && !string.IsNullOrEmpty(inputFieldZ.text))
         {
@@ -75,6 +77,4 @@ public class InputManager : MonoBehaviour
             }
         }
     }
-
-    public void UpdatePlayerVectorText(Vector3 pos) => playerVectorText.text = pos.x + "\n" + pos.y + "\n" + pos.z;
 }
