@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : Object
 {
+    [SerializeField] private Animator spaceshipAnimator;
+
     private float moveSpeed = 20f;
     private float rotationSpeed = 10f;
     private Vector3 targetPos;
@@ -22,12 +24,17 @@ public class Player : Object
             MoveTowards(targetPos);
     }
 
-    public void StopMoving() => isMoving = false;
+    public void StopMoving()
+    {
+        isMoving = false;
+        spaceshipAnimator.SetBool("isMoving", false);
+    }
 
     public Vector3 MultiplyWithScalar(float scalar)
     {
         targetPos = transform.position * scalar;
         UpdateCoordsText(targetPos);
+        spaceshipAnimator.SetBool("isMoving", true);
         isMoving = true;
         return targetPos;
     }
@@ -36,6 +43,7 @@ public class Player : Object
     {
         targetPos = transform.position + vector;
         UpdateCoordsText(targetPos);
+        spaceshipAnimator.SetBool("isMoving", true);
         isMoving = true;
         return targetPos;
     }
