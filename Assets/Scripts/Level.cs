@@ -8,4 +8,5 @@ public class Level : ScriptableObject
     public Material skybox;
     public Vector3 playerPos;
     public Vector3 goalPos;
+    public string description;
 }

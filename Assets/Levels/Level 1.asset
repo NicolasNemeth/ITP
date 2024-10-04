@@ -15,3 +15,5 @@ MonoBehaviour:
   skybox: {fileID: 2100000, guid: 939e9a2214e37ec4e8eb4fe85d074704, type: 2}
   playerPos: {x: 2, y: 1, z: 3}
   goalPos: {x: 6, y: 3, z: 9}
+  description: Bewege dein Raumschiff mittels Multiplikation mit einem Skalar zum
+    Zielpunkt.
