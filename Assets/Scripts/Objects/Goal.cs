@@ -12,6 +12,7 @@ public class Goal : Object
         if (other.CompareTag("Player"))
         {
             Player.Instance.StopMoving();
+            AudioManager.Instance.PlaySound("Goal");
             LevelManager.Instance.LoadNextLevel();
         }
     }

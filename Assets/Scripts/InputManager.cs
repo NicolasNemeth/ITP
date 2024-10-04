@@ -29,6 +29,8 @@ public class InputManager : MonoBehaviour
 
     public void OnScalarInput(string input)
     {
+        AudioManager.Instance.PlaySound("Button");
+
         if (float.TryParse(input, out float scalar))
         {
             scalarInputField.text = string.Empty;
@@ -41,6 +43,7 @@ public class InputManager : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(inputFieldX.text) && !string.IsNullOrEmpty(inputFieldY.text) && !string.IsNullOrEmpty(inputFieldZ.text))
         {
+            AudioManager.Instance.PlaySound("Button");
             float x, y, z;
 
             if (float.TryParse(inputFieldX.text, out x) && float.TryParse(inputFieldY.text, out y) && float.TryParse(inputFieldZ.text, out z))

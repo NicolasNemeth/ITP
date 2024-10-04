@@ -6,6 +6,8 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] private Sound[] sounds;
+    [SerializeField] private AudioSource mainTheme;
+    [SerializeField] private AudioSource pauseTheme;
 
     public static AudioManager Instance;
 
@@ -35,5 +37,19 @@ public class AudioManager : MonoBehaviour
         }
 
         s.source.Play();
+    }
+
+    public void SwitchTheme()
+    {
+        if (mainTheme.isPlaying)
+        {
+            mainTheme.Stop();
+            pauseTheme.Play();
+        }
+        else
+        {
+            pauseTheme.Stop();
+            mainTheme.Play();
+        }
     }
 }

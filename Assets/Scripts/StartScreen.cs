@@ -25,6 +25,7 @@ public class StartScreen : MonoBehaviour
 
     private void StartGame()
     {
+        AudioManager.Instance.PlaySound("Button");
         toggle.SetActive(false);
         HasGameStarted = true;
         UpdateUI();

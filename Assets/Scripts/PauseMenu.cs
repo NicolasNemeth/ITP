@@ -26,6 +26,7 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = Time.timeScale == 0 ? 1 : 0;
         toggle.SetActive(!toggle.activeSelf);
+        AudioManager.Instance.SwitchTheme();
         UpdateButtonImage();
     }
 

@@ -86,11 +86,15 @@ public class LevelManager : MonoBehaviour
         mainCamera.transform.LookAt(pos);
 
         if (buttonInput)
+        {
+            AudioManager.Instance.PlaySound("Button");
             ClearEventSystemSelectedButton();
+        }
     } 
 
     private void ToggleLevelInfo()
     {
+        AudioManager.Instance.PlaySound("Button");
         levelText.text = "Level " + (currentLevelIndex + 1);
         levelDescriptionText.text = levels[currentLevelIndex].description;
         levelInfoToggle.SetActive(!levelInfoToggle.activeSelf);
