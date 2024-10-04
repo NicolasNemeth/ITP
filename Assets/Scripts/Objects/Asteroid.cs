@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goal : Object
+public class Asteroid : Object
 {
     private void OnTriggerEnter(Collider other)
     {
@@ -11,9 +11,10 @@ public class Goal : Object
 
         if (other.CompareTag("Player"))
         {
-            AudioManager.Instance.PlaySound("Goal");
+            AudioManager.Instance.PlaySound("Asteroid");
             Player.Instance.StopMoving();
-            LevelManager.Instance.LoadNextLevel();
+            Player.Instance.TakeDamage();
+            LevelManager.Instance.ReloadLevel();
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,9 +9,9 @@ using UnityEngine.UI;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private List<Level> levels;
-    [SerializeField] private GameObject[] levelIcons;
     [SerializeField] private Animator levelCompletedTextAnimator;
     [SerializeField] private GameObject gameCompletedToggle;
+    [SerializeField] private GameObject gameOverToggle;
 
     [Space]
 
@@ -23,6 +24,7 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private Player player;
     [SerializeField] private Goal goal;
+    [SerializeField] private GameObject asteroidPrefab;
 
     [Space]
 
@@ -30,8 +32,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Button goalZoomButton;
 
     private int maxLevelIndex = 8;
-    private int currentLevelIndex = -1;
+    private int currentLevelIndex;
     private Camera mainCamera;
+    private List<GameObject> asteroids;
 
     public static LevelManager Instance;
 
@@ -39,11 +42,18 @@ public class LevelManager : MonoBehaviour
     {
         Instance = this;
         mainCamera = Camera.main;
+        asteroids = new List<GameObject>();
 
         playerZoomButton.onClick.AddListener(() => ZoomInOnPosition(player.transform.position, true));
         goalZoomButton.onClick.AddListener(() => ZoomInOnPosition(goal.transform.position, true));
         levelInfoButton.onClick.AddListener(ToggleLevelInfo);
 
+        Begin();
+    }
+
+    public void Begin()
+    {
+        currentLevelIndex = -1;
         LoadNextLevel();
     }
 
@@ -60,18 +70,52 @@ public class LevelManager : MonoBehaviour
         if (currentLevelIndex != 0)
             levelCompletedTextAnimator.SetTrigger("Fade");
 
+        DestroyAsteroids();
+        CreateAsteroids();
+
+        UpdateLevelInfo();
         InitializeLevel(levels[currentLevelIndex]);
     }
+
+    public void ReloadLevel() => InitializeLevel(levels[currentLevelIndex]);
+
+    public void HideUI()
+    {
+        gameCompletedToggle.SetActive(false);
+        gameOverToggle.SetActive(false);
+        levelInfoToggle.SetActive(false);
+    }
+
+    public void ShowGameOverScreen() => gameOverToggle.SetActive(true);
 
     private void InitializeLevel(Level level)
     {
         player.Teleport(level.playerPos);
         goal.Teleport(level.goalPos);
         ZoomInOnPosition(level.playerPos, false);
+
         InputManager.Instance.UpdatePlayerVectorText(level.playerPos);
+        InputManager.Instance.SetInputType(level.vectorAddition);
 
         ChangeSkybox(level.skybox);
-        levelIcons[currentLevelIndex].SetActive(true);
+    }
+
+    private void CreateAsteroids()
+    {
+        foreach (Vector3 pos in levels[currentLevelIndex].asteroidPositions)
+        {
+            GameObject asteroid = GameObject.Instantiate(asteroidPrefab, pos, Quaternion.identity);
+            asteroids.Add(asteroid);
+        }
+    }
+
+    private void DestroyAsteroids()
+    {
+        for (int i = 0; i < asteroids.Count; i++)
+        {
+            Destroy(asteroids[i]);
+        }
+        asteroids.Clear();
     }
 
     private void ChangeSkybox(Material material)
@@ -95,10 +139,14 @@ public class LevelManager : MonoBehaviour
     private void ToggleLevelInfo()
     {
         AudioManager.Instance.PlaySound("Button");
-        levelText.text = "Level " + (currentLevelIndex + 1);
-        levelDescriptionText.text = levels[currentLevelIndex].description;
         levelInfoToggle.SetActive(!levelInfoToggle.activeSelf);
         ClearEventSystemSelectedButton();
+    }
+
+    private void UpdateLevelInfo()
+    {
+        levelText.text = "Level " + (currentLevelIndex + 1);
+        levelDescriptionText.text = levels[currentLevelIndex].description;
     }
 
     private void ShowEndScreen() => gameCompletedToggle.SetActive(true);

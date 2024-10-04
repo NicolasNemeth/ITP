@@ -12,6 +12,10 @@ public class StartScreen : MonoBehaviour
     [SerializeField] private Button[] buttonsToEnable;
     [SerializeField] private TMP_InputField[] inputFieldsToEnable;
 
+    [Space]
+
+    [SerializeField] Button[] restartButtons;
+
     public bool HasGameStarted { get; private set; } = false;
 
     public static StartScreen Instance;
@@ -20,7 +24,28 @@ public class StartScreen : MonoBehaviour
     {
         Instance = this;
         UpdateUI();
+
         startButton.onClick.AddListener(StartGame);
+
+        foreach (Button button in restartButtons)
+        {
+            button.onClick.AddListener(RestartGame);
+        }
+    }
+
+    private void RestartGame()
+    {
+        AudioManager.Instance.PlaySound("Button");
+
+        toggle.SetActive(true);
+        HasGameStarted = false;
+
+        Player.Instance.Heal();
+        LevelManager.Instance.HideUI();
+        LevelManager.Instance.Begin();
+
+        UpdateUI();
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void StartGame()

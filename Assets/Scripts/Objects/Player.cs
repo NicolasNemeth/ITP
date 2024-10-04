@@ -1,32 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : Object
 {
+    [SerializeField] private int maxHp = 3;
+    [SerializeField] private Image[] hpImages;
     [SerializeField] private Animator spaceshipAnimator;
 
+    private int hp;
     private float moveSpeed = 20f;
     private float rotationSpeed = 10f;
     private Vector3 targetPos;
-    private bool isMoving = false;
+
+    public bool IsMoving { get; private set; } = false;
 
     public static Player Instance;
 
     private void Awake()
     {
         Instance = this;
+        Heal();
     }
 
     private void Update()
     {
-        if (isMoving)
+        if (IsMoving)
             MoveTowards(targetPos);
+    }
+
+    public void Heal()
+    {
+        hp = maxHp;
+
+        foreach (Image img in hpImages)
+        {
+            img.enabled = true;
+        }
+    }
+
+    public void TakeDamage()
+    {
+        if (hp == 0)
+            return;
+
+        hp--;
+        hpImages[hp].enabled = false;
+
+        if (hp == 0)
+            LevelManager.Instance.ShowGameOverScreen();
     }
 
     public void StopMoving()
     {
-        isMoving = false;
+        IsMoving = false;
         spaceshipAnimator.SetBool("isMoving", false);
     }
 
@@ -35,7 +63,7 @@ public class Player : Object
         targetPos = transform.position * scalar;
         UpdateCoordsText(targetPos);
         spaceshipAnimator.SetBool("isMoving", true);
-        isMoving = true;
+        IsMoving = true;
         return targetPos;
     }
     
@@ -44,7 +72,7 @@ public class Player : Object
         targetPos = transform.position + vector;
         UpdateCoordsText(targetPos);
         spaceshipAnimator.SetBool("isMoving", true);
-        isMoving = true;
+        IsMoving = true;
         return targetPos;
     }
 

@@ -12,6 +12,11 @@ public class InputManager : MonoBehaviour
     [SerializeField] private TMP_InputField inputFieldY;
     [SerializeField] private TMP_InputField inputFieldZ;
 
+    [Space]
+
+    [SerializeField] private GameObject scalarMultiplicationToggle;
+    [SerializeField] private GameObject vectorAdditionToggle;
+
     public static InputManager Instance;
 
     private void Awake()
@@ -27,8 +32,17 @@ public class InputManager : MonoBehaviour
         inputFieldZ.onEndEdit.AddListener(delegate { OnVectorInput(); });
     }
 
+    public void SetInputType(bool vectorAddition)
+    {
+        scalarMultiplicationToggle.SetActive(!vectorAddition);
+        vectorAdditionToggle.SetActive(vectorAddition);
+    }
+
     public void OnScalarInput(string input)
     {
+        if (Player.Instance.IsMoving)
+            return;
+
         AudioManager.Instance.PlaySound("Button");
 
         if (float.TryParse(input, out float scalar))
@@ -43,6 +57,9 @@ public class InputManager : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(inputFieldX.text) && !string.IsNullOrEmpty(inputFieldY.text) && !string.IsNullOrEmpty(inputFieldZ.text))
         {
+            if (Player.Instance.IsMoving)
+                return;
+
             AudioManager.Instance.PlaySound("Button");
             float x, y, z;
 

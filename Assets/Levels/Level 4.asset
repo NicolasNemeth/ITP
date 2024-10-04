@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5262c39df5b0f7a46986e5698c24547b, type: 3}
-  m_Name: Level 2
+  m_Name: Level 4
   m_EditorClassIdentifier: 
-  skybox: {fileID: 2100000, guid: 939e9a2214e37ec4e8eb4fe85d074704, type: 2}
-  playerPos: {x: 20, y: 10, z: 10}
-  goalPos: {x: -40, y: -20, z: -20}
-  description: Bewege dein Raumschiff mittels Multiplikation mit einem Skalar zu
-    der Raumstation.
-  vectorAddition: 0
+  skybox: {fileID: 2100000, guid: b6a3f8bca2c865243929bac258c89b96, type: 2}
+  playerPos: {x: 10, y: 10, z: 10}
+  goalPos: {x: 20, y: -10, z: 10}
+  description: Bewege dein Raumschiff mittels Vektoraddition zu der Raumstation.
+  vectorAddition: 1
   asteroidPositions: []
